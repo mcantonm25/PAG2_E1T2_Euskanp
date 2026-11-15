@@ -1,0 +1,69 @@
+<resources>
+
+    <string name="nire_datuak">Mis datos</string>
+    <string name="hizkuntzak">Idiomas</string>
+    <string name="jakinarazpenak">Notificaciones</string>
+    <string name="itzuli">Volver</string>
+    <string name="izen_abizenak">Nombre completo</string>
+    <string name="telefonoa">Teléfono</string>
+    <string name="emaila">Email</string>
+    <string name="gorde">Guardar</string>
+    <string name="ezarpenak">Configuración</string>
+    <string name="saiorik_ez">Sin sesión</string>
+    <string name="erabiltzailea">Nombre de usuario</string>
+    <string name="pasahitza">Contraseña</string>
+    <string name="saioa_hasi">Iniciar sesión</string>
+    <string name="nire_erreserbak">Mis reservas</string>
+    <string name="arrigorriaga_ak">Agenda cultural de Arrigorriaga</string>
+    <string name="ekitaldiak">Eventos</string>
+
+    <!-- Nuevos strings para Arrigorriaga.kt -->
+    <string name="bilatu_ekitaldia">Buscar evento...</string>
+    <string name="bilatu_desc">Buscar</string>
+    <string name="itxi_desc">Cerrar</string>
+    <string name="atzera_desc">Atrás</string>
+    <string name="kategoriak">Categorías</string>
+    <string name="kategoria_kontzertuak">Conciertos</string>
+    <string name="kategoria_kanpoko_ekitaldiak">Eventos de fuera</string>
+    <string name="kategoria_live_aurkezpenak">Eventos en directo</string>
+
+    <!-- Etiquetas de detalle del evento -->
+    <string name="etiketa_mota">Tipo:</string>
+    <string name="etiketa_data">Fecha:</string>
+    <string name="etiketa_ordua">Hora:</string>
+    <string name="etiketa_herria">Ciudad:</string>
+    <string name="etiketa_lekua">Sitio:</string>
+    <string name="etiketa_prezioa">Precio:</string>
+    <string name="etiketa_hizkuntza">Idioma:</string>
+    <string name="zehaztu_gabe">Sin definir</string>
+    <string name="doan_zehaztu_gabe">Gratis / Sin definir</string>
+    <string name="ekitaldirik_ez">No hay eventos con esta categoría</string>
+
+    <!-- Ordinales para el desplegable de eventos -->
+    <string name="ordinal_1">Primer evento</string>
+    <string name="ordinal_2">Segundo evento</string>
+    <string name="ordinal_3">Tercer evento</string>
+    <string name="ordinal_4">Cuarto evento</string>
+    <string name="ordinal_5">Quinto evento</string>
+    <string name="ordinal_6">Sexto evento</string>
+    <string name="ordinal_7">Septimo evento</string>
+    <string name="ordinal_8">Octavo evento</string>
+    <string name="ordinal_9">Noveno evento</string>
+    <string name="ordinal_10">Décimo evento</string>
+    <string name="ordinal_generikoa">Evento Nº %1$d</string>
+
+    <string name="bilaketaren_emaitzak">Resultados de la búsqueda</string>
+
+    <!-- Pantalla de detalle del evento -->
+
+    <string name="kanpina_azpititulua">camping moderno</string>
+    <string name="instituzioa_goi">Gobierno Vasco</string>
+
+    <string name="data_eta_ordua_label">FECHA Y HORA</string>
+    <string name="tokia_label">UBICACIÓN</string>
+    <string name="deskribapena_label">DESCRIPCIÓN</string>
+    <string name="informazio_gehiago_label">MÁS INFORMACIÓN</string>
+    <string name="gehitu_agendara">AGREGAR A MI AGENDA</string>
+    <string name="agendara_gehitua">¡Se ha agregado el evento a tu agenda!</string>
+    <string name="deskribapenik_ez">No hay descripción disponible para este evento.</string>
+</resources>

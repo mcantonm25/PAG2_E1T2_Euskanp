@@ -1,0 +1,69 @@
+<resources>
+    <string name="app_name" translatable="false">Euskanp</string>
+    <string name="nire_datuak">Nire datuak</string>
+    <string name="hizkuntzak">Hizkuntzak</string>
+    <string name="jakinarazpenak">Jakinarazpenak</string>
+    <string name="itzuli">Itzuli</string>
+    <string name="izen_abizenak">Izen-abizenak</string>
+    <string name="telefonoa">Telefonoa</string>
+    <string name="emaila">Emaila</string>
+    <string name="gorde">Gorde</string>
+    <string name="ezarpenak">Ezarpenak</string>
+    <string name="saiorik_ez">Ez dago saiorik</string>
+    <string name="erabiltzailea">Erabiltzailea</string>
+    <string name="pasahitza">Pasahitza</string>
+    <string name="saioa_hasi">Saioa hasi</string>
+    <string name="nire_erreserbak">Nire erreserbak</string>
+    <string name="arrigorriaga_ak">Arrigorriagako Agenda Kulturala</string>
+    <string name="ekitaldiak">Ekitaldiak</string>
+
+    <!-- Nuevos strings para Arrigorriaga.kt -->
+    <string name="bilatu_ekitaldia">Bilatu ekitaldia…</string>
+    <string name="bilatu_desc">Bilatu</string>
+    <string name="itxi_desc">Itxi</string>
+    <string name="atzera_desc">Atzera</string>
+    <string name="kategoriak">Kategoriak</string>
+    <string name="kategoria_kontzertuak">Kontzertuak</string>
+    <string name="kategoria_kanpoko_ekitaldiak">Kanpoko ekitaldiak</string>
+    <string name="kategoria_live_aurkezpenak">Live aurkezpenak</string>
+
+    <!-- Etiquetas de detalle del evento -->
+    <string name="etiketa_mota">Mota:</string>
+    <string name="etiketa_data">Data:</string>
+    <string name="etiketa_ordua">Ordua:</string>
+    <string name="etiketa_herria">Herria:</string>
+    <string name="etiketa_lekua">Lekua:</string>
+    <string name="etiketa_prezioa">Prezioa:</string>
+    <string name="etiketa_hizkuntza">Hizkuntza:</string>
+    <string name="zehaztu_gabe">Zehaztu gabe</string>
+    <string name="doan_zehaztu_gabe">Doan / Zehaztu gabe</string>
+    <string name="ekitaldirik_ez">Ez dago ekitaldirik kategoria honetan</string>
+
+    <!-- Ordinales para el desplegable de eventos -->
+    <string name="ordinal_1">Lehenengo ekitaldia</string>
+    <string name="ordinal_2">Bigarren ekitaldia</string>
+    <string name="ordinal_3">Hirugarren ekitaldia</string>
+    <string name="ordinal_4">Laugarren ekitaldia</string>
+    <string name="ordinal_5">Bosgarren ekitaldia</string>
+    <string name="ordinal_6">Seigarren ekitaldia</string>
+    <string name="ordinal_7">Zazpigarren ekitaldia</string>
+    <string name="ordinal_8">Zortzigarren ekitaldia</string>
+    <string name="ordinal_9">Bederatzigarren ekitaldia</string>
+    <string name="ordinal_10">Hamargarren ekitaldia</string>
+    <string name="ordinal_generikoa">%1$d. ekitaldia</string>
+
+    <string name="bilaketaren_emaitzak">Bilaketaren emaitzak</string>
+
+    <!-- Pantalla de detalle del evento -->
+    <string name="kanpina_izenburua" translatable="false">ARRIGORRIAGA</string>
+    <string name="kanpina_azpititulua">modern kanpina</string>
+    <string name="instituzioa_goi">Eusko Jaurlaritza</string>
+    <string name="instituzioa_behe" translatable="false">FP Santurtzi LH</string>
+    <string name="data_eta_ordua_label">DATA ETA ORDUA</string>
+    <string name="tokia_label">TOKIA</string>
+    <string name="deskribapena_label">DESKRIBAPENA</string>
+    <string name="informazio_gehiago_label">INFORMAZIO GEHIAGO</string>
+    <string name="gehitu_agendara">GEHITU NIRE AGENDARA</string>
+    <string name="agendara_gehitua">Ekitaldia zure agendara gehitu da!</string>
+    <string name="deskribapenik_ez">Ez dago deskribapenik eskuragarri ekitaldi honetarako.</string>
+</resources>

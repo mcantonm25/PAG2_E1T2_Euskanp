@@ -1,0 +1,69 @@
+<resources>
+
+    <string name="nire_datuak">My data</string>
+    <string name="hizkuntzak">Languages</string>
+    <string name="jakinarazpenak">Notifications</string>
+    <string name="itzuli">Back</string>
+    <string name="izen_abizenak">Full Name</string>
+    <string name="telefonoa">Phone</string>
+    <string name="emaila">Email</string>
+    <string name="gorde">Save</string>
+    <string name="ezarpenak">Settings</string>
+    <string name="saiorik_ez">No session</string>
+    <string name="erabiltzailea">Username</string>
+    <string name="pasahitza">Password</string>
+    <string name="saioa_hasi">Login</string>
+    <string name="nire_erreserbak">My reservations</string>
+    <string name="arrigorriaga_ak">Arrigorriaga\'s Cultural Agenda</string>
+    <string name="ekitaldiak">Events</string>
+
+    <!-- Nuevos strings para Arrigorriaga.kt -->
+    <string name="bilatu_ekitaldia">Search event...</string>
+    <string name="bilatu_desc">Search</string>
+    <string name="itxi_desc">Close</string>
+    <string name="atzera_desc">Back</string>
+    <string name="kategoriak">Categories</string>
+    <string name="kategoria_kontzertuak">Concerts</string>
+    <string name="kategoria_kanpoko_ekitaldiak">Outdoor events</string>
+    <string name="kategoria_live_aurkezpenak">Live events</string>
+
+    <!-- Etiquetas de detalle del evento -->
+    <string name="etiketa_mota">Type:</string>
+    <string name="etiketa_data">Date:</string>
+    <string name="etiketa_ordua">Hour:</string>
+    <string name="etiketa_herria">City:</string>
+    <string name="etiketa_lekua">Location:</string>
+    <string name="etiketa_prezioa">Price:</string>
+    <string name="etiketa_hizkuntza">Language:</string>
+    <string name="zehaztu_gabe">Not defined</string>
+    <string name="doan_zehaztu_gabe">Free / Not defined</string>
+    <string name="ekitaldirik_ez">No event in this category</string>
+
+    <!-- Ordinales para el desplegable de eventos -->
+    <string name="ordinal_1">First event</string>
+    <string name="ordinal_2">Second event</string>
+    <string name="ordinal_3">Third event</string>
+    <string name="ordinal_4">Fourth event</string>
+    <string name="ordinal_5">Fifth event</string>
+    <string name="ordinal_6">Sixth event</string>
+    <string name="ordinal_7">Seventh event</string>
+    <string name="ordinal_8">Eighth event</string>
+    <string name="ordinal_9">Ninth event</string>
+    <string name="ordinal_10">Tenth event</string>
+    <string name="ordinal_generikoa">Event Nº %1$d</string>
+
+    <string name="bilaketaren_emaitzak">Search results</string>
+
+    <!-- Pantalla de detalle del evento -->
+
+    <string name="kanpina_azpititulua">modern camping</string>
+    <string name="instituzioa_goi">Eusko Jaurlaritza</string>
+
+    <string name="data_eta_ordua_label">DATE AND TIME</string>
+    <string name="tokia_label">LOCATION</string>
+    <string name="deskribapena_label">DESCRIPTION</string>
+    <string name="informazio_gehiago_label">MORE INFORMATION</string>
+    <string name="gehitu_agendara">ADD TO MY AGENDA</string>
+    <string name="agendara_gehitua">Event added to your agenda!</string>
+    <string name="deskribapenik_ez">There is no description available for this event.</string>
+</resources>
