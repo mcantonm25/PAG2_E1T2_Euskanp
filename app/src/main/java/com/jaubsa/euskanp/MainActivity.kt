@@ -95,6 +95,11 @@ fun AppNav(modifier: Modifier = Modifier) {
                     navController.navigate("arrigorriaga") {
                         launchSingleTop = true
                     }
+                },
+                onNavigateToEkitaldiak = {
+                    navController.navigate("ekitaldiak/$userEmail") {
+                        launchSingleTop = true
+                    }
                 }
             )
         }
@@ -134,6 +139,11 @@ fun AppNav(modifier: Modifier = Modifier) {
                     navController.navigate("datuak/$userEmail") {
                         launchSingleTop = true
                     }
+                },
+                onNavigateToJakinarazpenak = {
+                    navController.navigate("jakinarazpenak/$userEmail") {
+                        launchSingleTop = true
+                    }
                 }
             )
         }
@@ -150,6 +160,41 @@ fun AppNav(modifier: Modifier = Modifier) {
                 userEmail = userEmail,
                 onNavigateToEzarpenak = {
                     navController.popBackStack()
+                }
+            )
+        }
+
+        // Ekitaldiak.kt
+        composable("ekitaldiak/{userEmail}") { backStackEntry ->
+            val userEmail = backStackEntry.arguments?.getString("userEmail") ?: ""
+            BackHandler {
+                navController.navigate("profila/$userEmail") {
+                    popUpTo("profila/$userEmail") { inclusive = true }
+                }
+            }
+            Ekitaldiak(
+                userEmail = userEmail,
+                onNavigateToProfila = {
+                    navController.navigate("profila/$userEmail") {
+                        popUpTo("profila/$userEmail") { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        // Jakinarazpenak.kt
+        composable("jakinarazpenak/{userEmail}") { backStackEntry ->
+            val userEmail = backStackEntry.arguments?.getString("userEmail") ?: ""
+            BackHandler {
+                navController.navigate("ezarpenak/$userEmail") {
+                    popUpTo("ezarpenak/$userEmail") { inclusive = true }
+                }
+            }
+            Jakinarazpenak(
+                onNavigateToProfila = {
+                    navController.navigate("ezarpenak/$userEmail") {
+                        popUpTo("ezarpenak/$userEmail") { inclusive = true }
+                    }
                 }
             )
         }

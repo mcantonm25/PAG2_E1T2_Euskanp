@@ -23,7 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jaubsa.euskanp.R
 import com.jaubsa.euskanp.ui.theme.EuskanpTheme
+import com.jaubsa.euskanp.ui.utils.AgendaManager
 import com.jaubsa.euskanp.ui.utils.KulturEvent
+import com.jaubsa.euskanp.ui.utils.SessionManager
 import com.jaubsa.euskanp.ui.utils.extractUniqueEventTypes
 import com.jaubsa.euskanp.ui.utils.loadKulturEventsFromAssets
 import java.text.Normalizer
@@ -33,6 +35,10 @@ fun Arrigorriaga(
     onNavigateToProfila: () -> Unit
 ) {
     val context = LocalContext.current
+    val sessionManager = remember { SessionManager(context) }
+    val agendaManager = remember { AgendaManager(context) }
+    val currentUserEmail = remember { sessionManager.getUserSession() ?: "" }
+
     val allEvents = remember { loadKulturEventsFromAssets(context) }
 
     // JSON "eventType" balio guztiak gehitzen dira errepikatu gabe.
@@ -53,6 +59,9 @@ fun Arrigorriaga(
             event = selectedDetailEvent!!,
             onBack = {
                 selectedDetailEvent = null
+            },
+            onAddToAgenda = { eventToSave ->
+                agendaManager.addEventToAgenda(currentUserEmail, eventToSave.id)
             }
         )
         return

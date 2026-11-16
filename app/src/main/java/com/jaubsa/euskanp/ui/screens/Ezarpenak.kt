@@ -23,7 +23,8 @@ import com.jaubsa.euskanp.ui.utils.updateLocale
 @Composable
 fun Ezarpenak(
     onNavigateToProfila: () -> Unit, // "Atzera" botoiaren zeregina
-    onNavigateToDatuak: () -> Unit // "Nire datuak" botoiaren zeregina
+    onNavigateToDatuak: () -> Unit, // "Nire datuak" botoiaren zeregina
+    onNavigateToJakinarazpenak: () -> Unit // "Nire datuak" botoiaren zeregina
 ){
     val context = LocalContext.current
     var showLanguageDialog by remember { mutableStateOf(false) }
@@ -45,7 +46,7 @@ fun Ezarpenak(
                     }
                     TextButton(
                         onClick = {
-                            updateLocale(context, "es") // Castellano
+                            updateLocale(context, "es") // Español
                             showLanguageDialog = false
                         },
                         modifier = Modifier.fillMaxWidth()
@@ -54,7 +55,7 @@ fun Ezarpenak(
                     }
                     TextButton(
                         onClick = {
-                            updateLocale(context, "en") // Castellano
+                            updateLocale(context, "en") // English
                             showLanguageDialog = false
                         },
                         modifier = Modifier.fillMaxWidth()
@@ -175,7 +176,7 @@ fun Ezarpenak(
                 ){
                     // "Jakinarazpenak" botoia
                     Button(
-                        onClick = {  },
+                        onClick = { onNavigateToJakinarazpenak() },
                         shape = RoundedCornerShape(20.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF2D6A4F)
@@ -230,7 +231,8 @@ fun EzarpenakPreview() {
     EuskanpTheme {
         Ezarpenak(
             onNavigateToProfila = {},
-            onNavigateToDatuak = {}
+            onNavigateToDatuak = {},
+            onNavigateToJakinarazpenak = {}
         )
     }
 }

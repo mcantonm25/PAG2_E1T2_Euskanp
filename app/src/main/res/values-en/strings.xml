@@ -66,4 +66,12 @@
     <string name="gehitu_agendara">ADD TO MY AGENDA</string>
     <string name="agendara_gehitua">Event added to your agenda!</string>
     <string name="deskribapenik_ez">There is no description available for this event.</string>
+    <string name="gordetako_ekitaldirik_ez">There are no saved events.</string>
+    <string name="ezabatu_desc">Delete</string>
+    <string name="ezabatu_ekitaldia_titulua">Delete event</string>
+    <string name="ezabatu_ekitaldia_mezua">Are you sure you want to delete %1$s from your agenda?</string>
+    <string name="bai_ezabatu">Yes, delete</string>
+    <string name="ezeztatu">Dismiss</string>
+    <string name="jakinarazpenik_ez_titulua">No notifications</string>
+    <string name="jakinarazpenik_ez_deskribapena">Notifications you receive will appear here.</string>
 </resources>

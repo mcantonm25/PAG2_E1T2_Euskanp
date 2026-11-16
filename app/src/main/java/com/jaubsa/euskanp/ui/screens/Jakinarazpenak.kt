@@ -1,111 +1,146 @@
 package com.jaubsa.euskanp.ui.screens
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.shape.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.*
-import androidx.compose.ui.unit.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.*
-import androidx.compose.ui.layout.*
-import androidx.compose.ui.tooling.preview.*
-import com.jaubsa.euskanp.ui.theme.EuskanpTheme
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jaubsa.euskanp.R
-import androidx.compose.ui.res.*
-import androidx.compose.ui.graphics.*
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.*
-import androidx.compose.ui.text.style.*
-import com.jaubsa.euskanp.ui.utils.BezeroaEmail
-import com.jaubsa.euskanp.ui.utils.updateLocale
+import com.jaubsa.euskanp.ui.theme.EuskanpTheme
 
 @Composable
 fun Jakinarazpenak(
     onNavigateToProfila: () -> Unit
-){
+) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Image(
             painter = painterResource(id = R.drawable.portada),
-            contentDescription = "fondoa",
+            contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
 
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(all = 15.dp)
-        ){
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth(),
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.logoa),
-                    contentDescription = "Euskanp JAUB logoa",
+                    contentDescription = stringResource(R.string.app_name),
                     contentScale = ContentScale.FillBounds,
-                    modifier = Modifier
-                        .width(75.dp)
-                        .height(75.dp)
+                    modifier = Modifier.size(75.dp)
                 )
             }
 
-            // "Jakinarazpenak" Row nagusia
+            // "Jakinarazpenak" titulua
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Text(
                     text = stringResource(R.string.jakinarazpenak),
+                    color = MaterialTheme.colorScheme.onBackground,
                     textAlign = TextAlign.Center,
                     fontSize = 28.sp,
                     fontWeight = FontWeight.ExtraBold
                 )
-
-                // Jakinarazpenak [left]
             }
 
-
-            // Box-a jartzeko pantailaren behekaldean
+            // Erdiko Box-a: jakinarazpenik ez dagoela adierazteko
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-            ){
-                Row(
+                    .fillMaxWidth()
+                    .weight(1f),
+                contentAlignment = Alignment.Center
+            ) {
+                Surface(
+                    shape = RoundedCornerShape(24.dp),
+                    color = MaterialTheme.colorScheme.surface.copy(alpha = 0.92f),
+                    border = BorderStroke(1.5.dp, Color(0xFF2D6A4F)),
+                    shadowElevation = 6.dp,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .align(Alignment.BottomCenter),
-                    horizontalArrangement = Arrangement.End, // Arrangement.End erabiliz, pantailaren behean jartzen dugu Row guztia
-                    verticalAlignment = Alignment.CenterVertically
-                ){
-                    Button(
-                        onClick = { onNavigateToProfila() },
-                        shape = RoundedCornerShape(20.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF2D6A4F)
-                        ),
+                        .padding(horizontal = 12.dp)
+                ) {
+                    Column(
                         modifier = Modifier
-                            .width(100.dp)
-                            .height(60.dp)
-                    ){
-                        // Botoiaren ikonoa
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp, vertical = 28.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
                         Icon(
-                            painter = painterResource(R.drawable.ic_arrowback),
+                            imageVector = Icons.Outlined.Notifications,
                             contentDescription = null,
-                            modifier = Modifier.size(42.dp)
+                            tint = Color(0xFF2D6A4F),
+                            modifier = Modifier.size(44.dp)
+                        )
+
+                        Text(
+                            text = stringResource(R.string.jakinarazpenik_ez_titulua),
+                            color = MaterialTheme.colorScheme.onSurface,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center
+                        )
+
+                        Text(
+                            text = stringResource(R.string.jakinarazpenik_ez_deskribapena),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            fontSize = 15.sp,
+                            textAlign = TextAlign.Center
                         )
                     }
+                }
+            }
+
+            // Pantailaren behekaldeko Atzera botoia
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Button(
+                    onClick = { onNavigateToProfila() },
+                    shape = RoundedCornerShape(20.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF2D6A4F)
+                    ),
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(60.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_arrowback),
+                        contentDescription = stringResource(R.string.atzera_desc),
+                        tint = Color.White,
+                        modifier = Modifier.size(42.dp)
+                    )
                 }
             }
         }

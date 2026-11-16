@@ -66,4 +66,12 @@
     <string name="gehitu_agendara">AGREGAR A MI AGENDA</string>
     <string name="agendara_gehitua">¡Se ha agregado el evento a tu agenda!</string>
     <string name="deskribapenik_ez">No hay descripción disponible para este evento.</string>
+    <string name="gordetako_ekitaldirik_ez">No hay eventos guardados.</string>
+    <string name="ezabatu_desc">Eliminar</string>
+    <string name="ezabatu_ekitaldia_titulua">Eliminar evento</string>
+    <string name="ezabatu_ekitaldia_mezua">¿Estás seguro de querer eliminar %1$s de tu agenda?</string>
+    <string name="bai_ezabatu">Sí, eliminar</string>
+    <string name="ezeztatu">Anular</string>
+    <string name="jakinarazpenik_ez_titulua">Sin notificaciones</string>
+    <string name="jakinarazpenik_ez_deskribapena">Las notificaciones que recibas aparecerán aquí.</string>
 </resources>

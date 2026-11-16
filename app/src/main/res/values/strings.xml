@@ -66,4 +66,14 @@
     <string name="gehitu_agendara">GEHITU NIRE AGENDARA</string>
     <string name="agendara_gehitua">Ekitaldia zure agendara gehitu da!</string>
     <string name="deskribapenik_ez">Ez dago deskribapenik eskuragarri ekitaldi honetarako.</string>
+
+    <string name="gordetako_ekitaldirik_ez">Ez daude gordetako ekitaldirik.</string>
+    <string name="ezabatu_desc">Ezabatu</string>
+    <string name="ezabatu_ekitaldia_titulua">Ekitaldia ezabatu</string>
+    <string name="ezabatu_ekitaldia_mezua">Ziur zaude "%1$s" zure agendatik ezabatu nahi duzula?</string>
+    <string name="bai_ezabatu">Bai, ezabatu</string>
+    <string name="ezeztatu">Ezeztatu</string>
+
+    <string name="jakinarazpenik_ez_titulua">Ez daude jakinarazpenik</string>
+    <string name="jakinarazpenik_ez_deskribapena">Jasotako jakinarazpenak hemen agertuko dira.</string>
 </resources>

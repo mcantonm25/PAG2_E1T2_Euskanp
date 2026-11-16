@@ -28,7 +28,8 @@ fun Profila(
     userEmail: String = "",
     onNavigateToEzarpenak: () -> Unit = {},
     onLogout: () -> Unit = {},
-    onNavigateToArrigorriaga: () -> Unit = {}
+    onNavigateToArrigorriaga: () -> Unit = {},
+    onNavigateToEkitaldiak: () -> Unit = {}
 ){
     val context = LocalContext.current
     var showLanguageDialog by remember { mutableStateOf(false) }
@@ -67,7 +68,7 @@ fun Profila(
                     }
                     TextButton(
                         onClick = {
-                            updateLocale(context, "es") // Gazteleraz
+                            updateLocale(context, "es") // Español
                             showLanguageDialog = false
                         },
                         modifier = Modifier.fillMaxWidth()
@@ -189,7 +190,7 @@ fun Profila(
             Spacer(modifier = Modifier.height(35.dp))
 
             Button(
-                onClick = {  },
+                onClick = { onNavigateToEkitaldiak() },
                 shape = RoundedCornerShape(20.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFF2D6A4F)
@@ -200,7 +201,7 @@ fun Profila(
                     .height(40.dp)
             ){
                 Text(
-                    text=stringResource(R.string.ekitaldiak)
+                    text = stringResource(R.string.ekitaldiak)
                 )
             }
 
