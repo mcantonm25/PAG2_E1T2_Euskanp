@@ -23,10 +23,19 @@ data class KulturEvent(
     val imageUrl: String
 )
 
+// Regex behin bakarrik konpilatzen ditugu (errendimendua asko hobetzeko)
+private val HTML_TAG_REGEX = Regex("<[^>]*>")
+private val WHITESPACE_REGEX = Regex("\\s+")
+
+// Memoriako cachea, JSON fitxategia behin bakarrik irakurtzeko
+private var cachedEvents: List<KulturEvent>? = null
+
 fun loadKulturEventsFromAssets(
     context: Context,
     fileName: String = "json/kulturklik.json"
 ): List<KulturEvent> {
+    cachedEvents?.let { return it }
+
     val events = mutableListOf<KulturEvent>()
     try {
         val rawText = context.assets.open(fileName)
@@ -49,9 +58,10 @@ fun loadKulturEventsFromAssets(
                 }
             }
         }
-        Log.d("KulturJSON", "Cargados ${events.size} eventos desde $fileName")
+        cachedEvents = events
+        Log.d("Kulturklik", "$fileName fitxategitik, ${events.size} deialdi kargatu dira.")
     } catch (e: Exception) {
-        Log.e("KulturJSON", "Error al leer $fileName: ${e.message}", e)
+        Log.e("Kulturklik", "Error irakurtzean $fileName fitxategia: ${e.message}", e)
     }
     return events
 }
@@ -79,12 +89,9 @@ private fun parseKulturObject(obj: JSONObject, fallbackIndex: Int): KulturEvent 
         ?: obj.optString("eventEndDate", "")
     val isoEndDate = if (rawEndDate.length >= 10) rawEndDate.substring(0, 10) else rawEndDate
 
-    val shortDate = try {
-        val parts = isoStartDate.split("-")
-        if (parts.size == 3) {
-            "${parts[2]}/${parts[1]}/${parts[0].takeLast(2)}"
-        } else isoStartDate
-    } catch (e: Exception) {
+    val shortDate = if (isoStartDate.length >= 10 && isoStartDate[4] == '-' && isoStartDate[7] == '-') {
+        "${isoStartDate.substring(8, 10)}/${isoStartDate.substring(5, 7)}/${isoStartDate.substring(2, 4)}"
+    } else {
         isoStartDate
     }
 
@@ -92,11 +99,11 @@ private fun parseKulturObject(obj: JSONObject, fallbackIndex: Int): KulturEvent 
         .ifBlank { obj.optString("description") }
         .ifBlank { obj.optString("eventDescription") }
     val cleanDesc = rawDesc
-        .replace(Regex("<[^>]*>"), " ")
+        .replace(HTML_TAG_REGEX, " ")
         .replace("&nbsp;", " ")
         .replace("&quot;", "\"")
         .replace("&amp;", "&")
-        .replace(Regex("\\s+"), " ")
+        .replace(WHITESPACE_REGEX, " ")
         .trim()
 
     val imageUrl = obj.optString("eventImage")

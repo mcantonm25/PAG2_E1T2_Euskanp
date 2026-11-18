@@ -1,8 +1,6 @@
 package com.jaubsa.euskanp.models
 
-import kotlinx.serialization.Serializable
-
-@Serializable
+// XML-aren Data class-a datuak identifikatzeko
 data class Bezeroa(
     val id : String = "",
     val izena : String = "",
@@ -11,6 +9,4 @@ data class Bezeroa(
     val telefonoa : String = "",
     val ostatu_mota : String = "",
     val sortzeEguna : String = ""
-){
-
-}
+)

@@ -1,7 +1,11 @@
 package com.jaubsa.euskanp.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -28,6 +32,8 @@ import com.jaubsa.euskanp.ui.utils.KulturEvent
 import com.jaubsa.euskanp.ui.utils.SessionManager
 import com.jaubsa.euskanp.ui.utils.extractUniqueEventTypes
 import com.jaubsa.euskanp.ui.utils.loadKulturEventsFromAssets
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.text.Normalizer
 
 @Composable
@@ -39,27 +45,31 @@ fun Arrigorriaga(
     val agendaManager = remember { AgendaManager(context) }
     val currentUserEmail = remember { sessionManager.getUserSession() ?: "" }
 
-    val allEvents = remember { loadKulturEventsFromAssets(context) }
+    // Egoera asinkronoa JSON datuak UI haria blokeatu gabe kargatzeko
+    var allEvents by remember { mutableStateOf<List<KulturEvent>>(emptyList()) }
+    var uniqueEventTypes by remember { mutableStateOf<List<String>>(emptyList()) }
+    var isLoading by remember { mutableStateOf(true) }
 
-    // JSON "eventType" balio guztiak gehitzen dira errepikatu gabe.
-    val uniqueEventTypes = remember(allEvents) {
-        extractUniqueEventTypes(allEvents)
+    LaunchedEffect(Unit) {
+        val loaded = withContext(Dispatchers.IO) {
+            loadKulturEventsFromAssets(context)
+        }
+        val types = withContext(Dispatchers.Default) {
+            extractUniqueEventTypes(loaded)
+        }
+        allEvents = loaded
+        uniqueEventTypes = types
+        isLoading = false
     }
 
-    // List pantaila kategoriarentzako
     var listScreenTitle by remember { mutableStateOf<String?>(null) }
     var listScreenEvents by remember { mutableStateOf<List<KulturEvent>>(emptyList()) }
-
-    // Hautatutako ekitaldiaren xehetasun-pantaila osorako egoera.
     var selectedDetailEvent by remember { mutableStateOf<KulturEvent?>(null) }
 
-    // Ekitaldi bat sakatzerakoan, informazio guztia agertuko da EkitaldiXehetasunaScreen.kt pantailan
     if (selectedDetailEvent != null) {
         EkitaldiXehetasunaScreen(
             event = selectedDetailEvent!!,
-            onBack = {
-                selectedDetailEvent = null
-            },
+            onBack = { selectedDetailEvent = null },
             onAddToAgenda = { eventToSave ->
                 agendaManager.addEventToAgenda(currentUserEmail, eventToSave.id)
             }
@@ -67,17 +77,12 @@ fun Arrigorriaga(
         return
     }
 
-    // Ekitaldi bat hautatuta badago edo bilaketa egin bada, EkitaldiZerrendaScreen.kt pantailan erakusten da:
     if (listScreenTitle != null) {
         EkitaldiZerrendaScreen(
             title = listScreenTitle!!,
             events = listScreenEvents,
-            onEventClick = { clickedEvent ->
-                selectedDetailEvent = clickedEvent
-            },
-            onBack = {
-                listScreenTitle = null
-            }
+            onEventClick = { clickedEvent -> selectedDetailEvent = clickedEvent },
+            onBack = { listScreenTitle = null }
         )
         return
     }
@@ -88,7 +93,6 @@ fun Arrigorriaga(
 
     val searchResultsTitle = stringResource(R.string.bilaketaren_emaitzak)
 
-    // Bilaketaren balioa, "documentName" irakurtzen du JSONetik eta "Bilaketaren emaitzak" pantailan zabaltzen du.
     val executeSearchByDocumentName = {
         val queryNormalized = searchQuery.trim().normalizeForSearch()
         val filteredEvents = if (queryNormalized.isEmpty()) {
@@ -102,29 +106,127 @@ fun Arrigorriaga(
         listScreenEvents = filteredEvents
     }
 
-    // Pantaila nagusia:
+    // Kategoriak aukeratzeko elkarrizketa-koadroa (LazyColumn erabiliz crash-ak saihesteko)
+    if (kategoriaExpanded) {
+        AlertDialog(
+            onDismissRequest = { kategoriaExpanded = false },
+            title = {
+                Text(
+                    text = stringResource(R.string.kategoriak),
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF1B4332)
+                )
+            },
+            text = {
+                if (uniqueEventTypes.isEmpty()) {
+                    Text(stringResource(R.string.ekitaldirik_ez))
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(max = 350.dp)
+                    ) {
+                        items(uniqueEventTypes) { eventTypeItem ->
+                            Text(
+                                text = eventTypeItem,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 15.sp,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        kategoriaExpanded = false
+                                        listScreenTitle = eventTypeItem
+                                        listScreenEvents = allEvents.filter {
+                                            it.eventType.equals(eventTypeItem, ignoreCase = true)
+                                        }
+                                    }
+                                    .padding(vertical = 12.dp, horizontal = 8.dp)
+                            )
+                            HorizontalDivider(color = Color.LightGray.copy(alpha = 0.5f))
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { kategoriaExpanded = false }) {
+                    Text(stringResource(R.string.ezeztatu), color = Color(0xFF2D6A4F))
+                }
+            }
+        )
+    }
+
+    // Ekitaldiak aukeratzeko elkarrizketa-koadroa (LazyColumn erabiliz crash-ak saihesteko)
+    if (ekitaldiaExpanded) {
+        AlertDialog(
+            onDismissRequest = { ekitaldiaExpanded = false },
+            title = {
+                Text(
+                    text = stringResource(R.string.ekitaldiak),
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF1B4332)
+                )
+            },
+            text = {
+                if (allEvents.isEmpty()) {
+                    Text(stringResource(R.string.ekitaldirik_ez))
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(max = 350.dp)
+                    ) {
+                        itemsIndexed(allEvents, key = { idx, ev -> "${ev.id}_$idx" }) { index, event ->
+                            val ordinalName = getOrdinalEventLabel(index + 1)
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        ekitaldiaExpanded = false
+                                        selectedDetailEvent = event
+                                    }
+                                    .padding(vertical = 10.dp, horizontal = 8.dp)
+                            ) {
+                                Text(ordinalName, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                                Text(
+                                    text = event.documentName,
+                                    fontSize = 12.sp,
+                                    color = Color.Gray,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
+                            HorizontalDivider(color = Color.LightGray.copy(alpha = 0.5f))
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { ekitaldiaExpanded = false }) {
+                    Text(stringResource(R.string.ezeztatu), color = Color(0xFF2D6A4F))
+                }
+            }
+        )
+    }
+
+    // Pantaila nagusia
     Box(modifier = Modifier.fillMaxSize()) {
-        // Pantailaren fondoa
         Image(
             painter = painterResource(id = R.drawable.portada),
-            contentDescription = null,
+            contentDescription = "Euskanp portada",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
 
-        // Pantailaren Column nagusia:
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(15.dp)
         ) {
-            // Goiko row-a
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Euskanp logoa
                 Image(
                     painter = painterResource(id = R.drawable.logoa),
                     contentDescription = stringResource(R.string.app_name),
@@ -132,17 +234,16 @@ fun Arrigorriaga(
                     modifier = Modifier.size(65.dp)
                 )
 
-                // Bilaketa TextField-a:
                 OutlinedTextField(
-                    value = searchQuery, // Bilaketaren balioa definitzen diogu bilatu ahal izateko
+                    value = searchQuery,
                     onValueChange = { searchQuery = it },
                     placeholder = {
                         Text(
-                            text = stringResource(R.string.bilatu_ekitaldia), // stringResource erabiltzen dugu itzultzeko beste hizkuntzetara
+                            text = stringResource(R.string.bilatu_ekitaldia),
                             fontSize = 14.sp
                         )
                     },
-                    singleLine = true, // Linea bakarra ezartzen dugu
+                    singleLine = true,
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                     keyboardActions = KeyboardActions(
                         onSearch = { executeSearchByDocumentName() }
@@ -169,9 +270,8 @@ fun Arrigorriaga(
                 )
             }
 
-            // Pantailaren titulu nagusia
             Text(
-                text = stringResource(R.string.arrigorriaga_ak), // stringResource erabiltzen dugu itzultzeko beste hizkuntzetara
+                text = stringResource(R.string.arrigorriaga_ak),
                 color = Color.Black,
                 textAlign = TextAlign.Center,
                 fontSize = 20.sp,
@@ -181,100 +281,34 @@ fun Arrigorriaga(
                     .padding(vertical = 12.dp)
             )
 
-            // "Kategoriak" eta "Ekitaldiak" dropdown-ak izango duen Column-a
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                // "Kategoriak" dropdown-a
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    DropdownSelectorButton(
-                        text = stringResource(R.string.kategoriak), // stringResource erabiltzen dugu itzultzeko beste hizkuntzetara
-                        onClick = { kategoriaExpanded = !kategoriaExpanded }
-                    )
-                    DropdownMenu(
-                        expanded = kategoriaExpanded,
-                        onDismissRequest = { kategoriaExpanded = false },
-                        modifier = Modifier
-                            .fillMaxWidth(0.9f)
-                            .heightIn(max = 320.dp)
-                    ) {
-                        if (uniqueEventTypes.isEmpty()) {
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.ekitaldirik_ez)) }, // stringResource erabiltzen dugu itzultzeko beste hizkuntzetara
-                                onClick = { kategoriaExpanded = false }
-                            )
-                        } else {
-                            uniqueEventTypes.forEach { eventTypeItem ->
-                                DropdownMenuItem(
-                                    text = {
-                                        Text(
-                                            text = eventTypeItem,
-                                            fontWeight = FontWeight.SemiBold
-                                        )
-                                    },
-                                    onClick = {
-                                        kategoriaExpanded = false
-                                        listScreenTitle = eventTypeItem
-                                        listScreenEvents = allEvents.filter {
-                                            it.eventType.equals(eventTypeItem, ignoreCase = true)
-                                        }
-                                    }
-                                )
-                            }
-                        }
-                    }
+            if (isLoading) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 24.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(color = Color(0xFF2D6A4F))
                 }
-
-                // "Ekitaldiak" dropdown-a
-                Box(modifier = Modifier.fillMaxWidth()) {
+            } else {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
                     DropdownSelectorButton(
-                        text = stringResource(R.string.ekitaldiak), // stringResource erabiltzen dugu itzultzeko beste hizkuntzetara
-                        onClick = { ekitaldiaExpanded = !ekitaldiaExpanded }
+                        text = stringResource(R.string.kategoriak),
+                        onClick = { kategoriaExpanded = true }
                     )
-                    DropdownMenu(
-                        expanded = ekitaldiaExpanded,
-                        onDismissRequest = { ekitaldiaExpanded = false },
-                        modifier = Modifier
-                            .fillMaxWidth(0.9f)
-                            .heightIn(max = 320.dp)
-                    ) {
-                        if (allEvents.isEmpty()) {
-                            DropdownMenuItem(
-                                text = { Text(stringResource(R.string.ekitaldirik_ez)) }, // stringResource erabiltzen dugu itzultzeko beste hizkuntzetara
-                                onClick = { ekitaldiaExpanded = false }
-                            )
-                        } else {
-                            allEvents.forEachIndexed { index, event ->
-                                val ordinalName = getOrdinalEventLabel(index + 1)
-                                DropdownMenuItem(
-                                    text = {
-                                        Column {
-                                            Text(ordinalName, fontWeight = FontWeight.Bold)
-                                            Text(
-                                                text = event.documentName,
-                                                fontSize = 12.sp,
-                                                color = Color.Gray,
-                                                maxLines = 1,
-                                                overflow = TextOverflow.Ellipsis
-                                            )
-                                        }
-                                    },
-                                    onClick = {
-                                        ekitaldiaExpanded = false
-                                        selectedDetailEvent = event
-                                    }
-                                )
-                            }
-                        }
-                    }
+
+                    DropdownSelectorButton(
+                        text = stringResource(R.string.ekitaldiak),
+                        onClick = { ekitaldiaExpanded = true }
+                    )
                 }
             }
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // "Atzera" botoia
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -282,7 +316,7 @@ fun Arrigorriaga(
                 horizontalArrangement = Arrangement.End
             ) {
                 Button(
-                    onClick = { onNavigateToProfila() }, // onNavigateToProfila() MainActivity-tik definitzen dugu "Profila.kt" pantailara joateko.
+                    onClick = { onNavigateToProfila() },
                     shape = RoundedCornerShape(20.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFF2D6A4F)
@@ -293,7 +327,7 @@ fun Arrigorriaga(
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_arrowback),
-                        contentDescription = stringResource(R.string.atzera_desc), // stringResource erabiltzen dugu itzultzeko beste hizkuntzetara
+                        contentDescription = stringResource(R.string.atzera_desc),
                         tint = Color.White,
                         modifier = Modifier.size(42.dp)
                     )
@@ -303,7 +337,6 @@ fun Arrigorriaga(
     }
 }
 
-// Dropdown-aren aukerak botoi bezala funtzionatzen den private funtzioa.
 @Composable
 private fun DropdownSelectorButton(
     text: String,
@@ -340,7 +373,6 @@ private fun DropdownSelectorButton(
     }
 }
 
-// Ekitaldiaren zenbakia ezartzeko funtzioa bilaketaren arabera:
 @Composable
 fun getOrdinalEventLabel(number: Int): String {
     return when (number) {
@@ -364,7 +396,6 @@ private fun String.normalizeForSearch(): String {
         .lowercase()
 }
 
-// Pantaila honen Preview-a
 @Preview(showBackground = true)
 @Composable
 fun ArrigorriagaPreview() {

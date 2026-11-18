@@ -50,6 +50,8 @@ fun Portada(onNavigateToLogin: () -> Unit) {
 @Composable
 fun PortadaPreview() {
     EuskanpTheme {
-        Portada { null }
+        Portada(
+            onNavigateToLogin = {}
+        )
     }
 }

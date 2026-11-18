@@ -21,6 +21,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.jaubsa.euskanp.ui.utils.BezeroaEmail
 import com.jaubsa.euskanp.ui.utils.gordeDatuak
+import com.jaubsa.euskanp.ui.utils.SessionManager
 
 @Composable
 fun Datuak(
@@ -28,6 +29,9 @@ fun Datuak(
     onNavigateToEzarpenak: () -> Unit // "Atzera" botoiaren zeregina
 ) {
     val context = LocalContext.current
+
+    val sessionManager = remember { SessionManager(context) }
+    var currentSavedEmail by remember(userEmail) { mutableStateOf(userEmail) }
 
     // TextField-etan JSON fitxategitik kargatzeko datuak
     var erabiltzailea by remember { mutableStateOf("") }
@@ -148,17 +152,18 @@ fun Datuak(
             ) {
                 Button(
                     onClick = {
+                        val cleanNewEmail = email.trim()
                         val a = gordeDatuak(
                             context = context,
-                            oldEmail = userEmail,
+                            oldEmail = currentSavedEmail,
                             newIzenAbizena = erabiltzailea,
                             newTelefonoa = telefonoa,
-                            newEmail = email
+                            newEmail = cleanNewEmail
                         )
                         if (a) {
-                            Toast.makeText(context, "Datuak gordeta!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Datuak eguneratu dira!", Toast.LENGTH_SHORT).show()
                         } else {
-                            Toast.makeText(context, "Errorea gordean", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Errorea gordetzean", Toast.LENGTH_SHORT).show()
                         }
                     },
                     shape = RoundedCornerShape(20.dp),

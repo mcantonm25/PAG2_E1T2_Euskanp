@@ -57,10 +57,6 @@ fun Ekitaldia(
                 )
             }
 
-
-            // EKITALDIA BOX [LEFT]
-
-
             // Box-a jartzeko pantailaren behekaldean
             Box(
                 modifier = Modifier

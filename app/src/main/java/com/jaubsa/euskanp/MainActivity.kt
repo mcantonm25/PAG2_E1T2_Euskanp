@@ -48,6 +48,7 @@ fun AppNav(modifier: Modifier = Modifier) {
         "portada"
     }
 
+    // NavHost erabiliz, kudeatu daiteke funtzioak joateko pantailetara. Adibidez: botoi bat joaten dena "Jakinarazpenak" pantailara "MenuNagusia" pantailatik
     NavHost(
         navController = navController,
         startDestination = initialDestination,
@@ -80,22 +81,30 @@ fun AppNav(modifier: Modifier = Modifier) {
 
             Profila(
                 userEmail = userEmail,
+
+                // Ezarpenak.kt pantailara joateko erabiltzen den funtzioa Profila.kt-ean
                 onNavigateToEzarpenak = {
                     navController.navigate("ezarpenak/$userEmail") {
                         launchSingleTop = true
                     }
                 },
+
+                // Saioa ixteko erabiltzen den funtzioa Profila.kt-ean
                 onLogout = {
                     sessionManager.clearSession()
                     navController.navigate("login") {
                         popUpTo(0) { inclusive = true }
                     }
                 },
+
+                // Arrigorriaga.kt pantailara joateko erabiltzen den funtzioa Profila.kt-ean
                 onNavigateToArrigorriaga = {
                     navController.navigate("arrigorriaga") {
                         launchSingleTop = true
                     }
                 },
+
+                // Ekitaldiak.kt pantailara joateko erabiltzen den funtzioa Profila.kt-ean
                 onNavigateToEkitaldiak = {
                     navController.navigate("ekitaldiak/$userEmail") {
                         launchSingleTop = true
@@ -113,6 +122,7 @@ fun AppNav(modifier: Modifier = Modifier) {
                 }
             }
             Arrigorriaga(
+                // Profile.kt pantailara joateko erabiltzen den funtzioa Arrigorriaga.kt-ean
                 onNavigateToProfila = {
                     navController.navigate("profila/$currentEmail") {
                         popUpTo("profila/$currentEmail") { inclusive = true }
@@ -130,16 +140,19 @@ fun AppNav(modifier: Modifier = Modifier) {
                 }
             }
             Ezarpenak(
+                // Profila.kt pantailara joateko erabiltzen den funtzioa Ezarpenak.kt-ean
                 onNavigateToProfila = {
                     navController.navigate("profila/$userEmail") {
                         popUpTo("profila/$userEmail") { inclusive = true }
                     }
                 },
+                // Datuak.kt pantailara joateko erabiltzen den funtzioa Ezarpenak.kt-ean
                 onNavigateToDatuak = {
                     navController.navigate("datuak/$userEmail") {
                         launchSingleTop = true
                     }
                 },
+                // Jakinarazpenak.kt pantailara joateko erabiltzen den funtzioa Ezarpenak.kt-ean
                 onNavigateToJakinarazpenak = {
                     navController.navigate("jakinarazpenak/$userEmail") {
                         launchSingleTop = true
