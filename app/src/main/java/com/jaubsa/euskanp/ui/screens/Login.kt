@@ -79,28 +79,29 @@ fun Login(
             painter = painterResource(R.drawable.portada),
             contentDescription = "fondoa",
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize() // fillMaxSize() erabiltzen dugu pantaila osoan fondoa izateko
+            modifier = Modifier.fillMaxSize()
         )
 
-        // "Login" pantaila nagusia
-        Column(
-            verticalArrangement = Arrangement.spacedBy(35.dp, Alignment.Top),
-            horizontalAlignment = Alignment.CenterHorizontally,
+        // 1. Logo fijo arriba y centrado horizontalmente
+        Image(
+            painter = painterResource(id = R.drawable.logoa),
+            contentDescription = "Euskanp JAUB Logoa",
+            contentScale = ContentScale.FillBounds,
             modifier = Modifier
-                .width(402.dp)
-                .height(874.dp)
-                .padding(start = 49.dp, top = 35.dp, end = 49.dp)
-        ) {
-            // Euskanp + JAUB S.A logoa
-            Image(
-                painter = painterResource(id = R.drawable.logoa),
-                contentDescription = "image description",
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier
-                    .width(180.dp)
-                    .height(180.dp)
-            )
+                .align(Alignment.TopCenter)
+                .padding(top = 40.dp)
+                .size(160.dp)
+        )
 
+        // 2. Bloque de TextFields centrado en la pantalla + Botón justo debajo
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier
+                .align(Alignment.Center)
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp)
+        ) {
             // "Erabiltzailea" TextField-a
             OutlinedTextField(
                 value = erabiltzailea,
@@ -109,6 +110,8 @@ fun Login(
                     errorMessage = ""
                 },
                 label = { Text(stringResource(R.string.erabiltzailea)) },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xFF347969),
                     focusedLabelColor = Color(0xFF347969),
@@ -116,7 +119,7 @@ fun Login(
                 )
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(15.dp))
 
             // "Pasahitza" TextField-a
             OutlinedTextField(
@@ -126,6 +129,7 @@ fun Login(
                     errorMessage = ""
                 },
                 label = { Text(stringResource(R.string.pasahitza)) },
+                modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xFF347969),
                     focusedLabelColor = Color(0xFF347969),
@@ -147,27 +151,21 @@ fun Login(
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-            // "Saioa hasi" botoia
+            // "Saioa hasi" botoia justo debajo de los TextFields
             Button(
                 onClick = {
-                    // Val hauek erabiliko dira baieztatzeko erabiltzailea eta pasahitza existitzen diren ala ez.
                     val emailTrimmed = erabiltzailea.trim()
                     val passTrimmed = pasahitza.trim()
 
                     when {
-                        // Emaila edo pasahitza hutsik badago:
                         emailTrimmed.isEmpty() || passTrimmed.isEmpty() -> {
                             errorMessage = "Eremu guztiak bete behar dira saioa hasteko!"
                         }
-
-                        // Emaila JSON fitxategian ez bada existitzen:
                         BezeroaEmail(context, emailTrimmed) == null -> {
                             errorMessage = "Email hori ez dago erregistratuta."
                         }
-
-                        // Parametro guztiak ondo badaude (erabiltzailea existitzen da eta bere pasahitza zuzena bada)
                         else -> {
                             errorMessage = ""
                             onNavigateToProfila(emailTrimmed)
@@ -179,7 +177,6 @@ fun Login(
                 ),
                 shape = RoundedCornerShape(size = 35.dp)
             ) {
-                // "Saioa hasi" testua
                 Text(
                     text = stringResource(R.string.saioa_hasi),
                     style = TextStyle(
