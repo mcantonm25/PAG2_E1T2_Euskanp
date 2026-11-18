@@ -9,6 +9,7 @@ class AgendaManager(context: Context) {
         return "saved_events_${userEmail.trim().lowercase()}"
     }
 
+    // Metodo honekin, deialdi bat gordetzen dugu agendan (soilik saioa hasi den erabiltzaileentzako)
     fun addEventToAgenda(userEmail: String, eventId: String) {
         if (userEmail.isBlank() || eventId.isBlank()) return
         val key = keyForUser(userEmail)
@@ -17,6 +18,7 @@ class AgendaManager(context: Context) {
         prefs.edit().putStringSet(key, currentIds).apply()
     }
 
+    // Metodo honekin, deialdi bat ezabatzen dugu agendatik (soilik saioa hasi den erabiltzaileentzako)
     fun removeEventFromAgenda(userEmail: String, eventId: String) {
         if (userEmail.isBlank()) return
         val key = keyForUser(userEmail)
@@ -25,6 +27,7 @@ class AgendaManager(context: Context) {
         prefs.edit().putStringSet(key, currentIds).apply()
     }
 
+    // Metodo honekin, deialdi guztiak soilik saioa hasi den erabiltzaileentzatik lortzen ditugu (soilik lokalean gordetzen dira)
     fun getSavedEventsForUser(context: Context, userEmail: String): List<KulturEvent> {
         if (userEmail.isBlank()) return emptyList()
         val savedIds = prefs.getStringSet(keyForUser(userEmail), emptySet()) ?: emptySet()

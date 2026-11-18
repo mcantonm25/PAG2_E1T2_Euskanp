@@ -5,6 +5,7 @@ import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
 
+// KulturEvent data class-a JSONetik datuak lortzeko (etiketetik)
 data class KulturEvent(
     val id: String,
     val documentName: String,

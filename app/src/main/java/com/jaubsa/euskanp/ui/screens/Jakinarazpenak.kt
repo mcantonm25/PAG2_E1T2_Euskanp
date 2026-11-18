@@ -26,9 +26,12 @@ import com.jaubsa.euskanp.ui.theme.EuskanpTheme
 fun Jakinarazpenak(
     onNavigateToProfila: () -> Unit
 ) {
+    // Pantaila osoa
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
     ) {
+        // Aplikazioaren fondoa
         Image(
             painter = painterResource(id = R.drawable.portada),
             contentDescription = null,
@@ -36,11 +39,13 @@ fun Jakinarazpenak(
             modifier = Modifier.fillMaxSize()
         )
 
+        // Column nagusia kokatzeko elementu guztiak
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(all = 15.dp)
         ) {
+            // Logoa duen Row-a
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -48,7 +53,7 @@ fun Jakinarazpenak(
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.logoa),
-                    contentDescription = stringResource(R.string.app_name),
+                    contentDescription = "Euskanp JAUB Logoa",
                     contentScale = ContentScale.FillBounds,
                     modifier = Modifier.size(75.dp)
                 )
@@ -87,6 +92,7 @@ fun Jakinarazpenak(
                         .fillMaxWidth()
                         .padding(horizontal = 12.dp)
                 ) {
+                    // Column nagusia kokatzeko ikonoa, titulua eta deskribapena
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -94,6 +100,7 @@ fun Jakinarazpenak(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
+                        // Kanpaiaren ikonoa Box-entzako
                         Icon(
                             imageVector = Icons.Outlined.Notifications,
                             contentDescription = null,
@@ -101,6 +108,7 @@ fun Jakinarazpenak(
                             modifier = Modifier.size(44.dp)
                         )
 
+                        // "Ez daude jakinarazpenik" titulua
                         Text(
                             text = stringResource(R.string.jakinarazpenik_ez_titulua),
                             color = MaterialTheme.colorScheme.onSurface,
@@ -109,6 +117,7 @@ fun Jakinarazpenak(
                             textAlign = TextAlign.Center
                         )
 
+                        // Jakinarazpenak ez dagoenean deskribapen testua Box-ean
                         Text(
                             text = stringResource(R.string.jakinarazpenik_ez_deskribapena),
                             color = MaterialTheme.colorScheme.onSurfaceVariant,

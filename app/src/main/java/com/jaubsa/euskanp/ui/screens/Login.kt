@@ -82,7 +82,6 @@ fun Login(
             modifier = Modifier.fillMaxSize()
         )
 
-        // 1. Logo fijo arriba y centrado horizontalmente
         Image(
             painter = painterResource(id = R.drawable.logoa),
             contentDescription = "Euskanp JAUB Logoa",
@@ -93,7 +92,6 @@ fun Login(
                 .size(160.dp)
         )
 
-        // 2. Bloque de TextFields centrado en la pantalla + Botón justo debajo
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp),

@@ -48,7 +48,7 @@ fun BezeroaEmail(context: Context, emaila: String): Bezeroa? {
         DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file)
     } catch (e: Exception) {
         // Gordetzean XML fitxategia hondatu bada, assets-etik berrezartzen du automatikoki
-        Log.e("XmlPullParser", "XML korruptua detektatu da, assets-etik berrezartzen...", e)
+        Log.e("XmlPullParser", "XML korruptua detektatu da, assets-etik berrezartzen: ${e.printStackTrace()}")
         copyAssetToInternal(context, file)
         DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file)
     }
@@ -82,7 +82,7 @@ fun BezeroaEmail(context: Context, emaila: String): Bezeroa? {
         }
         null
     } catch (e: Exception) {
-        Log.e("XmlPullParser", "Errorea XML fitxategia irakurtzean", e)
+        Log.e("XmlPullParser", "Errorea XML fitxategia irakurtzean: ${e.printStackTrace()}")
         null
     }
 }
@@ -180,7 +180,7 @@ fun gordeDatuak(
 
         true
     } catch (e: Exception) {
-        Log.e("XmlPullParser", "Errorea XML fitxategia gordetzean", e)
+        Log.e("XmlPullParser", "Errorea XML fitxategia gordetzean: ${e.printStackTrace()}")
         false
     }
 }

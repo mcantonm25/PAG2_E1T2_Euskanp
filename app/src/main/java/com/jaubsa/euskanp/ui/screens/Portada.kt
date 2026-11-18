@@ -14,34 +14,37 @@ import com.jaubsa.euskanp.ui.theme.EuskanpTheme
 
 @Composable
 fun Portada(onNavigateToLogin: () -> Unit) {
+    // Pantaila osoa
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .clickable { onNavigateToLogin() }
     ) {
+        // Aplikazioaren fondoa
         Image(
-            painter = painterResource(id = R.drawable.portada),
+            painter = painterResource(id = R.drawable.portada), // Drawable argazkiaren ruta
             contentDescription = "fondoa",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
 
+        // Euskanp logoa
         Image(
             painter = painterResource(id = R.drawable.logoa),
-            contentDescription = "logoa",
+            contentDescription = "Euskanp JAUB Logoa",
             contentScale = ContentScale.Fit,
             modifier = Modifier
                 .size(248.dp)
                 .align(Alignment.Center)
         )
 
+        // "Hasi saioa" / "Login" botoia
         Button(
             onClick = onNavigateToLogin,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 48.dp)
         ) {
-            Text(text = stringResource(R.string.saioa_hasi))
+            Text(text = stringResource(R.string.saioa_hasi)) // Hainbat hizkuntza dutenez, stringResource erabiltzen dugu itzultzeko automatikoki
         }
     }
 }

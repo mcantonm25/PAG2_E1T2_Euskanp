@@ -17,8 +17,6 @@ import com.jaubsa.euskanp.R
 import androidx.compose.ui.res.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.*
-import androidx.compose.ui.text.style.*
 import com.jaubsa.euskanp.ui.utils.BezeroaEmail
 import com.jaubsa.euskanp.ui.utils.updateLocale
 

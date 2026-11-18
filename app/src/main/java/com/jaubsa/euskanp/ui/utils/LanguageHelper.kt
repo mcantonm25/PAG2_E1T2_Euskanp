@@ -6,7 +6,7 @@ import android.os.LocaleList
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 
-// Hau erabiltzen da lehenetsitako hizkuntza hautatzeko aplikazioa lehen aldiz hasten denean:
+// Hau erabiltzen da lehenetsitako hizkuntza hautatzeko aplikazioa lehen aldiz hasten denean
 fun updateLocale(context: Context, languageCode: String) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         context.getSystemService(android.app.LocaleManager::class.java)?.applicationLocales =

@@ -8,18 +8,12 @@ import androidx.compose.ui.unit.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.*
 import androidx.compose.ui.layout.*
 import androidx.compose.ui.tooling.preview.*
 import com.jaubsa.euskanp.ui.theme.EuskanpTheme
 import com.jaubsa.euskanp.R
 import androidx.compose.ui.res.*
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.*
-import androidx.compose.ui.text.style.*
-import com.jaubsa.euskanp.ui.utils.BezeroaEmail
-import com.jaubsa.euskanp.ui.utils.updateLocale
 
 @Composable
 fun Ekitaldia(

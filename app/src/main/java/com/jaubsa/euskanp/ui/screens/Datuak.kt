@@ -150,8 +150,10 @@ fun Datuak(
                     .padding(10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                // "Gorde aldaketak" botoia
                 Button(
                     onClick = {
+                        // onClick egitean, irakurtzen du datu guztiak, eta gordeDatuak() metodoari dei egiten dio XML-an datuak eguneratzeko
                         val cleanNewEmail = email.trim()
                         val a = gordeDatuak(
                             context = context,
@@ -160,9 +162,12 @@ fun Datuak(
                             newTelefonoa = telefonoa,
                             newEmail = cleanNewEmail
                         )
+
+                        // Datuak ongi eguneratu badira arazorik gabe, Toast jakinarazpen bat agertuko da esanez datuak eguneratu direla.
                         if (a) {
                             Toast.makeText(context, "Datuak eguneratu dira!", Toast.LENGTH_SHORT).show()
                         } else {
+                            // Erroreren bat egon bada gordetzean, Toast jakinarazpen bat agertuko da esanez errorea egon dela.
                             Toast.makeText(context, "Errorea gordetzean", Toast.LENGTH_SHORT).show()
                         }
                     },

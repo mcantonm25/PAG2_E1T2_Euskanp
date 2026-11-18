@@ -38,8 +38,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AppNav(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    val navController = rememberNavController()
-    val sessionManager = remember { SessionManager(context) }
+    val navController = rememberNavController() // Beharrezkoa da NavHost-entzako
+    val sessionManager = remember { SessionManager(context) } // remember honekin, sesioa gordetzen dugu memorian saioa ez ixteko automatikoki.
 
     val savedEmail = remember { sessionManager.getUserSession() }
     val initialDestination = if (!savedEmail.isNullOrEmpty()) {
@@ -54,15 +54,17 @@ fun AppNav(modifier: Modifier = Modifier) {
         startDestination = initialDestination,
         modifier = modifier
     ) {
-        // Portada.kt
+        // Portada.kt-ren nabigazio funtzioak
         composable("portada") {
+            // Login.kt pantailara joateko erabiltzen den funtzioa Portada.kt-ean
             Portada(onNavigateToLogin = {
                 navController.navigate("login")
             })
         }
 
-        // Login.kt
+        // Login.kt-ren nabigazio funtzioak
         composable("login") {
+            // Profila.kt pantailara joateko erabiltzen den funtzioa login egitean Login.kt pantailatik
             Login(onNavigateToProfila = { emaila ->
                 sessionManager.saveUserSession(emaila)
                 navController.navigate("profila/$emaila") {
@@ -71,7 +73,7 @@ fun AppNav(modifier: Modifier = Modifier) {
             })
         }
 
-        // Profila.kt
+        // Profila.kt-ren nabigazio funtzioak
         composable("profila/{userEmail}") { backStackEntry ->
             val userEmail = backStackEntry.arguments?.getString("userEmail") ?: ""
 
@@ -113,7 +115,7 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
-        // Arrigorriaga.kt
+        // Arrigorriaga.kt-ren nabigazio funtzioak
         composable("arrigorriaga") {
             val currentEmail = sessionManager.getUserSession() ?: ""
             BackHandler {
@@ -131,9 +133,9 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
-        // Ezarpenak.kt
+        // Ezarpenak.kt-ren nabigazio funtzioak
         composable("ezarpenak/{userEmail}") { backStackEntry ->
-            val userEmail = backStackEntry.arguments?.getString("userEmail") ?: ""
+            val userEmail = backStackEntry.arguments?.getString("userEmail") ?: "" // Oraingo saioa identifikatzen dugu baieztatzeko nork dagoen saioarekin
             BackHandler {
                 navController.navigate("profila/$userEmail") {
                     popUpTo("profila/$userEmail") { inclusive = true }
@@ -161,7 +163,7 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
-        // Datuak.kt
+        // Datuak.kt-ren nabigazio funtzioak
         composable("datuak/{userEmail}") { backStackEntry ->
             val userEmail = backStackEntry.arguments?.getString("userEmail") ?: ""
             BackHandler {
@@ -171,13 +173,14 @@ fun AppNav(modifier: Modifier = Modifier) {
             }
             Datuak(
                 userEmail = userEmail,
+                // Ezarpenak.kt pantailara joateko erabiltzen den funtzioa Datuak.kt-ean
                 onNavigateToEzarpenak = {
                     navController.popBackStack()
                 }
             )
         }
 
-        // Ekitaldiak.kt
+        // Ekitaldiak.kt-ren nabigazio funtzioak
         composable("ekitaldiak/{userEmail}") { backStackEntry ->
             val userEmail = backStackEntry.arguments?.getString("userEmail") ?: ""
             BackHandler {
@@ -187,6 +190,7 @@ fun AppNav(modifier: Modifier = Modifier) {
             }
             Ekitaldiak(
                 userEmail = userEmail,
+                // Profila.kt pantailara joateko erabiltzen den funtzioa Ekitaldia.kt-ean
                 onNavigateToProfila = {
                     navController.navigate("profila/$userEmail") {
                         popUpTo("profila/$userEmail") { inclusive = true }
@@ -195,7 +199,7 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
-        // Jakinarazpenak.kt
+        // Jakinarazpenak.kt-ren nabigazio funtzioak
         composable("jakinarazpenak/{userEmail}") { backStackEntry ->
             val userEmail = backStackEntry.arguments?.getString("userEmail") ?: ""
             BackHandler {
